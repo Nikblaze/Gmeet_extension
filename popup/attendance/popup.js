@@ -1,9 +1,30 @@
+
+chrome.storage.sync.get(['timeText','status'], function (obj) {
+  $("#timeText").text(obj.timeText); //setting value of timeText as object from
+  $("#time")[0].value=obj.timeText;
+  if(obj.status===1){
+  $(".status")[0].innerText="Running";
+  }
+  else{
+    $(".status")[0].innerText="Inactive";
+  }
+        console.log('current value of time '+obj.timeText);
+    });
 $(document).on('input', '#time', function () {
     $("#timeText")[0].innerText = $("#time")[0].value;
 });
-
 $(document).on('click', '#start, #stop, #save, #clear', (e) => {
     delay = $("#time")[0].value;
+    chrome.storage.sync.set({timeText:delay});// setting value in chrome storage
+    if(e.target.id==="start"){
+      chrome.storage.sync.set({status:1});
+
+    }
+    else{
+      chrome.storage.sync.set({status:0});
+    }
+    console.log(" == " + $("#status"));
+    //sending message to content script
     chrome.runtime.sendMessage({ dist: "content", action: e.target.id, delay: delay }, (res) => {
         console.log(res);
         if (!res) {

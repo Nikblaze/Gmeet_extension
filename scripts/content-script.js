@@ -4,35 +4,24 @@ var participantNames = [];   // For Key Storage
 var timeStamp = [];         // For Time Storage
 var interval_id;            // For start and stop Monitoring
 var meetingId;             // For storing Meeting ID
-
-// For Push to Talk Feature
-$(document).keydown(function (event) {
-    // var keycode = (event.keyCode ? event.keyCode : event.which);
-    if (event.which == 32) {
-        if (event.ctrlKey) {
-            $("div[data-tooltip*='camera']").click();
-        }
-        else {
-            $("div[data-tooltip*='microphone']").click();
-        }
-    }
-});
+var attend={};
+let duration=1;
 
 // Function to Fetch List of Participants
 function getListOfParticipants() {
     let data = [];
     for (let i of $("[data-participant-id], [data-requested-participant-id]")) {
-        let name = i.outerText || i.innerText;
-        // Skip if Name is You
-        if (name == "You") {
-            continue;
-        }
-        // Remove Unnecessary things from name
-        name = name.replace('\n', '');
-        name = name.replace('Hide Participant', '');
-        name = name.trim();
-        data.push(name);
-    }
+      let name = i.outerText || i.innerText;
+      // Skip if Name is You
+      if (name == "You") {
+          continue;
+      }
+      // Remove Unnecessary things from name
+      name = name.replace('\n', '');
+      name = name.replace('Hide Participant', '');
+      name = name.trim();
+      data.push(name);
+  }
     return data;
 }
 
@@ -42,11 +31,10 @@ function logParticipantsData() {
     let currentTime = now.getHours() + ':' + now.getMinutes().toString();
     let data = getListOfParticipants(); // Returns current Name List of Participants
     console.log(data);
-
-    // Loops through Participants list 
+    // Loops through Participants list
     for (let name of data) {
         let time = dataStorage[name] || [];
-        time.push(currentTime);
+        time.push(currentTime); // this is same as dataStorage[name].push(currentTime)
         dataStorage[name] = time;
         if (!participantNames.includes(name)) {
             participantNames.push(name);
@@ -55,7 +43,6 @@ function logParticipantsData() {
     timeStamp.push(currentTime);
     console.log(dataStorage);
 }
-
 // Function to get Meeting ID
 function getMeetingId() {
     let id = window.location.href;
@@ -82,7 +69,8 @@ function startMonitoring(time = 300000) {
     }
     logParticipantsData(); // Logs data on Start
     interval_id = setInterval(function () {
-        logParticipantsData(); // Logs data on Specific Intervel
+        logParticipantsData();
+        duration=duration+1; // Logs data on Specific Intervel
     }, time);
     console.log('started');
 }
@@ -92,28 +80,25 @@ function stopMonitoring() {
     if (!(interval_id == undefined)) {
         clearInterval(interval_id);
         interval_id = undefined;
+
     }
-    console.log('stoped');
+    console.log('stopped');
 }
 
-// Function to send data to Background script
-function sendData() {
-    chrome.runtime.sendMessage({ dist: "background", dataValues: dataStorage, participantNames: participantNames, timeValues: timeStamp, meetingId: meetingId }, res => {
-        console.log(res);
-    });
-    console.log('data sent');
-}
+
 
 // Function to clear dataStorage
 function clearData() {
     dataStorage = {};
     participantNames = [];
     timeStamp = [];
+    attend={};
+    duration=1;
     console.log('cleared');
 }
 
 
-// Event Listiner
+// Event Listiner from popup.js
 chrome.runtime.onMessage.addListener((request, sender, response) => {
     if (request.dist === "content") {
         console.log(request);
@@ -127,12 +112,26 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
                 }
                 let t_mil = delay * 60000;
 
+
                 startMonitoring(t_mil);
                 sendResponse("Started");
             }
             else if (action === "stop") {
                 stopMonitoring();
                 sendResponse("Stopped");
+
+                let array=Object.keys(dataStorage);
+                console.log('array :');
+                console.log(array);
+                for(let name of array){
+                  let w=dataStorage[name].length;
+                  console.log('name : '+name+' w: '+w+' duration: '+duration);
+                  let percent=(w*100)/duration;
+                  if(percent>=70) attend[name]='P';
+                  else attend[name]='A';
+                }
+                console.log('attend :');
+                console.log(attend);
             }
             else if (action === "save") {
                 sendData();
@@ -155,4 +154,11 @@ function sendResponse(data) {
     chrome.runtime.sendMessage({ dist: "popup", data: data }, (res) => {
         console.log(res);
     });
+}
+// Function to send data to Background script
+function sendData() {
+    chrome.runtime.sendMessage({ dist: "background", dataValues: dataStorage, participantNames: participantNames, timeValues: timeStamp, meetingId: meetingId }, res => {
+        console.log(res);
+    });
+    console.log('data sent');
 }
