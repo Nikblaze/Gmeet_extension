@@ -111,8 +111,6 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
                     delay = 5;
                 }
                 let t_mil = delay * 60000;
-
-
                 startMonitoring(t_mil);
                 sendResponse("Started");
             }
@@ -127,7 +125,8 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
                   let w=dataStorage[name].length;
                   console.log('name : '+name+' w: '+w+' duration: '+duration);
                   let percent=(w*100)/duration;
-                  if(percent>=70) attend[name]='P';
+                  let min_val=request.criteria;
+                  if(percent>=min_val) attend[name]='P';
                   else attend[name]='A';
                 }
                 console.log('attend :');
