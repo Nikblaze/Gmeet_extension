@@ -1,15 +1,15 @@
 
-# Meet Attendance
+# Meet Extension
 
-This Extension is used to take attendance during online classes / Meetings.
+This Google meet extension will simplify the attendance and note taking process during the online class.
+
 
 ### Features
 
+- 	The attandance taking process of this extension is very unique.
+	Here the minimum percentage can be selected in which the only students who are present more than the selected percentage will be marked present.
 -   It saves the Attendance log as a HTML file.
-
--   It also makes muting Audio / Video easier.
-
--   You can simply press Spacebar to Mute / Unmute Audio and Ctrl + Spacebar to toggle Video.
+-	It allows to take and save notes during the class.
 
 ## Technologies used:
 
@@ -18,29 +18,13 @@ This Extension is used to take attendance during online classes / Meetings.
 -   HTML
 -   CSS
 
-## Screenshots
-
-
-<p align="center">
-<kbd>
-<img src="./screenshots/attendance_sample.png" width="100%" />
-</kbd>
-</p>
-
-<p align="center">
-<kbd>
-<img src="./screenshots/1.png" width="200px" />
-</kbd>
-</p>
-
 ## Installation
 
 1. Clone the repository.
-1. Open the Extension Management page by navigating to chrome://extensions.
+1. Open the Extension Management page in chrome by typing chrome://extensions in the tab.
    - The Extension Management page can also be opened by clicking on the Chrome menu, hovering over More Tools then selecting Extensions.
 
 1. Enable Developer Mode by clicking the toggle switch next to Developer mode.
    Click the LOAD UNPACKED button and select the extension directory.
 
-1. The extension has been successfully installed. Now Install
-   [Google Meet Grid View](https://chrome.google.com/webstore/detail/google-meet-grid-view-fix/dakebdbeofhmlnmjlmhjdmmjmfohiicn) to log all participants data.
+1. The extension is installed.
