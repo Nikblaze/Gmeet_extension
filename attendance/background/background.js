@@ -9,7 +9,7 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
     }]);
 });
 
-// Event Listener
+// Event Listener for data recieved from content script
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("Data Received", request);
     if (request.dist === "background") {

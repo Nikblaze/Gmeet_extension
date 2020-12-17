@@ -1,11 +1,11 @@
 {
-    "name": "Gmeet_extensions",
-    "version": "0.1",
+    "name": "Meet extension",
+    "version": "0.2",
     "manifest_version": 2,
-    "description": "This Google meet extension will simplify the attendance and note taking process during the online class. ",
+    "description": "This Extension is used to take attendance during online classes / Meetings.",
     "background": {
         "scripts": [
-            "background/background.js"
+            "attendance/background/background.js"
         ]
     },
     "content_scripts": [
@@ -15,14 +15,14 @@
                 "https://meet.google.com/*"
             ],
             "js": [
-                "scripts/jquery-3.5.1.min.js",
-                "scripts/content-script.js"
+                "attendance/scripts/jquery-3.5.1.min.js",
+                "attendance/scripts/content-script.js"
             ],
             "run_at": "document_end"
         }
     ],
     "browser_action": {
-        "default_popup": "popup/main/popup_main.html"
+        "default_popup": "main/popup_main.html"
     },
     "permissions": [
         "declarativeContent",

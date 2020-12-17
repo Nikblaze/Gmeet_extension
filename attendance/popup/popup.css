@@ -7,8 +7,8 @@ body {
     height: max-content;
     padding: 1rem;
     margin: 0px;
-    color: #0d0dda;
-    background-color: #81d4fa;
+    color: #69779b;
+    background-color: #acdbdf;
     font-size: 1rem;
     font-weight: 500;
 }
@@ -19,7 +19,7 @@ button {
     margin: 0.5rem;
     border: none;
     color: cornsilk;
-    background-color: #0d0dda;
+    background-color: #69779b;
 }
 
 button:focus {

@@ -1,0 +1,27 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    height: max-content;
+    padding: 1rem;
+    margin: 0px;
+    color: #0d0dda;
+    background-color: #81d4fa;
+    font-size: 1rem;
+    font-weight: 500;
+}
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    padding: 0.5rem;
+    width: 12rem;
+    margin: 0.5rem;
+    border: none;
+    color: cornsilk;
+    background-color: #0d0dda;
+}

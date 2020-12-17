@@ -1,6 +1,6 @@
-// Restoring the previous value of time and criteria from storage
+
 chrome.storage.sync.get(['timeText','status','ctext'], function (obj) {
-  $("#timeText").text(obj.timeText);
+  $("#timeText").text(obj.timeText); //setting value of timeText as object from
   $("#time")[0].value=obj.timeText;
   $("#ctext").text(obj.ctext);
   $("#criteria")[0].value = obj.ctext;
@@ -21,7 +21,7 @@ $(document).on('click', '#start, #stop, #save, #clear', (e) => {
     delay = $("#time")[0].value;
     c_val=$("#criteria")[0].value;
     chrome.storage.sync.set({timeText:delay});// setting value in chrome storage
-    chrome.storage.sync.set({ctext:c_val});// setting value in chrome storage
+    chrome.storage.sync.set({ctext:c_val});
     if(e.target.id==="start"){
       chrome.storage.sync.set({status:1});
     }
@@ -38,7 +38,7 @@ $(document).on('click', '#start, #stop, #save, #clear', (e) => {
     });
 })
 
-// Event Listener for Status from popup
+// Event Listener for Status
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.dist === "popup") {
         $(".status")[0].innerText = request.data;

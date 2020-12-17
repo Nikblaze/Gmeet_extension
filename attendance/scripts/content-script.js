@@ -126,6 +126,7 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
                   console.log('name : '+name+' w: '+w+' duration: '+duration);
                   let percent=(w*100)/duration;
                   let min_val=request.criteria;
+                  console.log('criteria : '+min_val);
                   if(percent>=min_val) attend[name]='P';
                   else attend[name]='A';
                 }
