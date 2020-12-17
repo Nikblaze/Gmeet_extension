@@ -7,7 +7,7 @@ This Google meet extension will simplify the attendance and note taking process 
 ### Features
 
 - 	The attandance taking process of this extension is very unique.
-	Here the minimum percentage can be selected in which the only students who are present more than the selected percentage will be marked present.
+	Here the minimum percentage can be selected in which only students who are present more than the selected percentage during the class will be marked present.
 -   It saves the Attendance log as a HTML file.
 -	It allows to take and save notes during the class.
 
