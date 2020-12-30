@@ -21,10 +21,10 @@ This Google meet extension will simplify the attendance and note taking process 
 ## Installation
 
 1. Clone the repository.
-1. Open the Extension Management page in chrome by typing chrome://extensions in the tab.
+2. Open the Extension Management page in chrome by typing chrome://extensions in the tab.
    - The Extension Management page can also be opened by clicking on the Chrome menu, hovering over More Tools then selecting Extensions.
 
-1. Enable Developer Mode by clicking the toggle switch next to Developer mode.
+3. Enable Developer Mode by clicking the toggle switch next to Developer mode.
    Click the LOAD UNPACKED button and select the extension directory.
 
-1. The extension is installed.
+4. The extension is installed.
