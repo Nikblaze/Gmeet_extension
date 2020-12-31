@@ -5,6 +5,7 @@ var timeStamp = [];         // For Time Storage
 var interval_id;            // For start and stop Monitoring
 var meetingId;             // For storing Meeting ID
 var attend={};
+var status;
 let duration=1;
 
 // Function to Fetch List of Participants
@@ -134,10 +135,14 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
                 console.log(attend);
             }
             else if (action === "save") {
+                status=0;
                 sendData();
                 sendResponse("Downloading");
-            }
-            else if (action == "clear") {
+            }else if (action === "savefinal"){
+                status=1;
+                sendData();
+                sendResponse("Downloading");
+            }else if (action === "clear") {
                 clearData();
                 sendResponse("Cleared");
             }
@@ -157,7 +162,7 @@ function sendResponse(data) {
 }
 // Function to send data to Background script
 function sendData() {
-    chrome.runtime.sendMessage({ dist: "background", dataValues: dataStorage, participantNames: participantNames, timeValues: timeStamp, meetingId: meetingId }, res => {
+    chrome.runtime.sendMessage({ dist: "background", dataValues: dataStorage, attend:attend, status:status ,participantNames: participantNames, timeValues: timeStamp, meetingId: meetingId }, res => {
         console.log(res);
     });
     console.log('data sent');
