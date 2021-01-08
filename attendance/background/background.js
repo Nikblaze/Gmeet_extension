@@ -1,4 +1,6 @@
+
 // For Declearative Content
+var c=0;
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
     chrome.declarativeContent.onPageChanged.addRules([{
         conditions: [new chrome.declarativeContent.PageStateMatcher({
@@ -8,15 +10,17 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
         actions: [new chrome.declarativeContent.ShowPageAction()]
     }]);
 });
-
 // Event Listener for data recieved from content script
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("Data Received", request);
     if (request.dist === "background") {
-        if(request.status === 1)
-        createDocument(request.dataValues, request.participantNames, request.timeValues, request.meetingId);
+
+        if(request.status === 0){
+          createDocument(request.dataValues, request.participantNames, request.timeValues, request.meetingId);
+        }
         else
-        createfinalDocument(request.attend, request.participantNames, request.meetingId);
+          createfinalDocument(request.attend, request.participantNames, request.meetingId);
         sendResponse("Received by background script");
     }
     else if (request.dist === "content") {
@@ -42,6 +46,7 @@ const getTemplate = new Promise((resolve, reject) => {
 })
 // function for HTML Creation
 async function createDocument(dataValues, key, timeValues, meetingId) {
+
     var template = "";
     let now = new Date();
     let currentTime = now.getHours() + ':' + (now.getMinutes().toString());
@@ -94,33 +99,39 @@ async function createDocument(dataValues, key, timeValues, meetingId) {
 //function to create final attendance List
 
 async function createfinalDocument(attend, key, meetingId) {
+  chrome.storage.sync.get(['totalparticipantsofclass','logging'], async function(result) {
     var template = "";
     let now = new Date();
     let currentTime = now.getHours() + ':' + (now.getMinutes().toString());
     let currentDate = now.getFullYear() + '-' + (now.getMonth() + 1).toString() + '-' + now.getDate().toString();
-
+//log[date]={attend}
+//createfinalDocument loop(el in log){loop(el2 in totalparticipantsofclass){log[el][el2]===P}
     var thead = "";
     var tbody = "";
 
     // Time Value Header Create
-    thead += '<th>' + currentDate + '</th>\n';
-
+    for(index of result.logging){
+      thead += '<th>' + index.currentDate + '</th>\n';
+    }
+    var temp = result.totalparticipantsofclass;
+    //console.log("createfinalDocument in get temp is"+ temp);
 
     // Data Value Create
-    for (let el of key) {
-        let sn = '<td>' + (key.indexOf(el) + 1) + '</td>';
-        let name = '<td>' + el + '</td>';
-        let t = attend[el];
-        let tdata = "";
+    for (let el of temp) {
+      let sn = '<td>' + (temp.indexOf(el) + 1) + '</td>';
+      let name = '<td>' + el + '</td>';
+      let tdata = "";
+      for(index of result.logging){
+        let t = index.attend[el];
         if (t==="P") {
           tdata += '<td class="present">' + "<p>P</p>" + '</td>';
         }
         else {
           tdata += '<td class="absent">' + "A" + '</td>';
         }
-        tbody += '<tr>' + sn + name + tdata + '</tr>';
+      }
+      tbody += '<tr>' + sn + name + tdata + '</tr>';
     }
-
     template = await getTemplate;
 
     template = template.replace('[%%title%%]', (currentDate + " " + currentTime));
@@ -134,7 +145,11 @@ async function createfinalDocument(attend, key, meetingId) {
     var blob = new Blob([template], { type: 'text/html;charset=utf-8' });
     let url = URL.createObjectURL(blob);
     chrome.downloads.download({
-        url: url,
-        filename: filename
+      url: url,
+      filename: filename
     });
+
+
+  });
+
 }

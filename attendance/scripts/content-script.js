@@ -133,8 +133,36 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
                 }
                 console.log('attend :');
                 console.log(attend);
+                chrome.storage.sync.get(['totalparticipantsofclass','logging'], function(result) {
+                    var array = result.totalparticipantsofclass?result.totalparticipantsofclass:[];
+                    var templog = result.logging?result.logging:[];
+                    console.log(templog);
+                    for(let el of participantNames){
+                      if (!array.includes(el)) {
+                        array.push(el);
+                        console.log("el -  " + el);
+                      }
+                    }
+                    let now = new Date();
+                    let currentDate = now.getFullYear() + '-' + (now.getMonth() + 1).toString() + '-' + now.getDate().toString();
+                    var element = {};
+                    element.currentDate=currentDate;
+                    element.attend=attend;
+                    templog.push(element);
+                    console.log(templog);
+                    var jsonObj = {};
+                    jsonObj.totalparticipantsofclass = array;
+                    jsonObj.logging = templog;
+                    chrome.storage.sync.set(jsonObj, function() {
+                        console.log("Saved a new array item");
+                        console.log(array);
+
+                    });
+
+                });
             }
             else if (action === "save") {
+
                 status=0;
                 sendData();
                 sendResponse("Downloading");
@@ -143,6 +171,7 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
                 sendData();
                 sendResponse("Downloading");
             }else if (action === "clear") {
+                chrome.storage.sync.clear();
                 clearData();
                 sendResponse("Cleared");
             }
