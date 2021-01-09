@@ -17,7 +17,7 @@ $(document).on('input', '#time', function () {
 $(document).on('input', '#criteria', function () {
     $("#ctext")[0].innerText= $("#criteria")[0].value;
 });
-$(document).on('click', '#start, #stop, #save, #clear', (e) => {
+$(document).on('click', '#start, #stop, #save, #clear, #savefinal', (e) => {
     delay = $("#time")[0].value;
     c_val= $("#criteria")[0].value;
     chrome.storage.sync.set({timeText:delay});// setting value in chrome storage

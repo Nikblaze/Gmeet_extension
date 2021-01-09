@@ -162,7 +162,6 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
                 });
             }
             else if (action === "save") {
-
                 status=0;
                 sendData();
                 sendResponse("Downloading");

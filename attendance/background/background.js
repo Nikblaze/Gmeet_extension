@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("Data Received", request);
     if (request.dist === "background") {
 
-        if(request.status === 0){
+        if(request.status == 0){
           createDocument(request.dataValues, request.participantNames, request.timeValues, request.meetingId);
         }
         else
