@@ -7,7 +7,7 @@ var meetingId;             // For storing Meeting ID
 var attend={};
 var status;
 let duration=1;
-
+let meetingname;
 // Function to Fetch List of Participants
 function getListOfParticipants() {
     let data = [];
@@ -17,6 +17,11 @@ function getListOfParticipants() {
       if (name == "You") {
           continue;
       }
+         if(name.includes("presenting")||name.includes("Presenting")||name.includes("Presention")||name.includes("presention")||name.includes("joined")||name.includes("Joined")){
+        continue;
+      
+      }
+      if(name[0] !== '5')continue;
       // Remove Unnecessary things from name
       name = name.replace('\n', '');
       name = name.replace('Hide Participant', '');
@@ -48,7 +53,7 @@ function logParticipantsData() {
 function getMeetingId() {
     let id = window.location.href;
     id = id.split('/')[3];
-    if (id === "") {
+    if (id[3] !== '-' || id[8] !== '-') {
         console.log("Not a Meeting");
         return false;
     }
@@ -56,16 +61,22 @@ function getMeetingId() {
         clearData();
         console.log("New Meeting");
     }
-    meetingId = id;
+    //meetingId = id;
+    meetingId=id;//.substring(0,12);
     return true;
 }
 
 // Function to Start Monitoring
 function startMonitoring(time = 300000) {
+    dataStorage = {};
+    participantNames = [];
+    timeStamp = [];
+    attend={};
+    duration=1;
     stopMonitoring();
     // getMeetingId returns false if not a meeting
     if (!getMeetingId()) {
-        console.log("Not Starting Service. Because it is not a Meeting.");
+
         return false;
     }
     logParticipantsData(); // Logs data on Start
@@ -103,9 +114,16 @@ function clearData() {
 chrome.runtime.onMessage.addListener((request, sender, response) => {
     if (request.dist === "content") {
         console.log(request);
-        if (getMeetingId()) {
+       if (request.action === "classlist") {
+          opentab();
+          sendResponse("class list opening");
+        }
+        else if (getMeetingId()) {
             let action = request.action;
             if (action === "start") {
+              meetingname=$('.SQHmX .Jyj1Td.CkXZgc').text();
+              console.log("name of the class -------");
+              console.log(meetingname);
                 let delay = request.delay;
                 delay = parseInt(delay);
                 if (isNaN(delay)) {
@@ -118,7 +136,6 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
             else if (action === "stop") {
                 stopMonitoring();
                 sendResponse("Stopped");
-
                 let array=Object.keys(dataStorage);
                 console.log('array :');
                 console.log(array);
@@ -133,35 +150,66 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
                 }
                 console.log('attend :');
                 console.log(attend);
-                chrome.storage.sync.get(['totalparticipantsofclass','logging'], function(result) {
-                    var array = result.totalparticipantsofclass?result.totalparticipantsofclass:[];
-                    var templog = result.logging?result.logging:[];
-                    console.log(templog);
+                chrome.storage.sync.get(['classarray'], function(result) {
+                  console.log(result.classarray);
+                  let obj1=[];
+                  if(result.classarray!==undefined){
+                    obj1=result.classarray;
+                  }
+                  let flag=false;
+                  let indexofmeeting=-1;
+                  let i;
+                  for(i=0;i<obj1.length;i++){
+                    if(obj1[i].meetingId.substring(0,12)==meetingId.substring(0,12)){
+                      indexofmeeting=i;
+                      flag=true;
+                      break;
+                    }
+                  }
+                  if(flag){
+                    var totalparticipantsofclass = obj1[indexofmeeting].totalparticipantsofclass;
+                    var logging = obj1[indexofmeeting].logging;
+                  }else{
+                    var totalparticipantsofclass = [];
+                    var logging = [];
+                  }
+                  console.log(logging);
+                    //totalparticipantsofclass is updated
                     for(let el of participantNames){
-                      if (!array.includes(el)) {
-                        array.push(el);
+                      if (!totalparticipantsofclass.includes(el)) {
+                        totalparticipantsofclass.push(el);
                         console.log("el -  " + el);
                       }
                     }
                     let now = new Date();
                     let currentDate = now.getFullYear() + '-' + (now.getMonth() + 1).toString() + '-' + now.getDate().toString();
                     var element = {};
+
                     element.currentDate=currentDate;
                     element.attend=attend;
-                    templog.push(element);
-                    console.log(templog);
+                    logging.push(element);
+                    console.log("logging : ");
+                    console.log(logging);
+                    console.log(indexofmeeting);
+                    if(indexofmeeting!==-1){
+                      obj1[indexofmeeting]={meetingId,meetingname,totalparticipantsofclass,logging};
+                    }else{
+                      obj1.push({meetingId,meetingname,totalparticipantsofclass,logging});
+                    }
+                    console.log(obj1);
                     var jsonObj = {};
-                    jsonObj.totalparticipantsofclass = array;
-                    jsonObj.logging = templog;
+                    jsonObj.classarray=obj1;
+                    console.log(jsonObj);
+
                     chrome.storage.sync.set(jsonObj, function() {
                         console.log("Saved a new array item");
-                        console.log(array);
-
                     });
-
                 });
             }
             else if (action === "save") {
+              chrome.storage.sync.get(['classarray'], function(result) {
+                console.log(result.classarray);
+              });
                 status=0;
                 sendData();
                 sendResponse("Downloading");
@@ -169,14 +217,20 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
                 status=1;
                 sendData();
                 sendResponse("Downloading");
-            }else if (action === "clear") {
+            }
+            else if (action === "clear") {
+              if(confirm("Are you sure you want to delete everything ?")==true){
                 chrome.storage.sync.clear();
                 clearData();
                 sendResponse("Cleared");
             }
+          }
         }
         else {
-            sendResponse("Not a Meeting");
+          chrome.storage.sync.set({status:0});
+          alert("Service not available. Error: Not a valid Meeting.")
+          console.log("Not Starting Service. Because it is not a Meeting.");
+          sendResponse("Not a Meeting");
         }
         response("Received by Content Script");
     }
@@ -185,13 +239,17 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
 // Function to send data to Popup
 function sendResponse(data) {
     chrome.runtime.sendMessage({ dist: "popup", data: data }, (res) => {
-        console.log(res);
     });
 }
+
 // Function to send data to Background script
 function sendData() {
-    chrome.runtime.sendMessage({ dist: "background", dataValues: dataStorage, attend:attend, status:status ,participantNames: participantNames, timeValues: timeStamp, meetingId: meetingId }, res => {
-        console.log(res);
+    chrome.runtime.sendMessage({ dist: "background", dataValues: dataStorage, attend:attend, status:status ,participantNames: participantNames, timeValues: timeStamp, meetingId: meetingId,meetingname:meetingname }, res => {
+
     });
     console.log('data sent');
+}
+function opentab(){
+  chrome.runtime.sendMessage({ dist: "opentab",meetingId: meetingId,meetingname:meetingname}, res => {
+  });
 }

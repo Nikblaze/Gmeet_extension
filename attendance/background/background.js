@@ -15,14 +15,24 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("Data Received", request);
     if (request.dist === "background") {
-
         if(request.status == 0){
-          createDocument(request.dataValues, request.participantNames, request.timeValues, request.meetingId);
+          createDocument(request.dataValues, request.participantNames, request.timeValues, request.meetingId,request.meetingname);
         }
         else
-          createfinalDocument(request.attend, request.participantNames, request.meetingId);
+          createfinalDocument(request.meetingId,request.meetingname);
         sendResponse("Received by background script");
     }
+    else if(request.dist==="opentab"){
+        console.log("open tab created");
+      chrome.tabs.create({url: chrome.extension.getURL("classlist.html")});
+      console.log(request.meetingId,request.meetingname);
+      sendResponse("Received by background script");
+    }
+      else if(request.dist==="classlist"){
+        console.log(request.text);
+        createfinalDocument(request.text.substring(0,12),request.text.substring(13));
+        sendResponse("Received by background script");
+      }
     else if (request.dist === "content") {
         // To send back your response  to the current tab
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -45,8 +55,7 @@ const getTemplate = new Promise((resolve, reject) => {
     client.send();
 })
 // function for HTML Creation
-async function createDocument(dataValues, key, timeValues, meetingId) {
-
+async function createDocument(dataValues, key, timeValues, meetingId,meetingname) {
     var template = "";
     let now = new Date();
     let currentTime = now.getHours() + ':' + (now.getMinutes().toString());
@@ -61,6 +70,7 @@ async function createDocument(dataValues, key, timeValues, meetingId) {
     }
 
     // Data Value Create
+    key.sort();
     for (let el of key) {
         let sn = '<td>' + (key.indexOf(el) + 1) + '</td>';
         let name = '<td>' + el + '</td>';
@@ -82,7 +92,8 @@ async function createDocument(dataValues, key, timeValues, meetingId) {
     template = template.replace('[%%title%%]', (currentDate + " " + currentTime));
     template = template.replace('[%%date%%]', currentDate);
     template = template.replace('[%%time%%]', currentTime);
-    template = template.replace('[%%meetID%%]', meetingId);
+    template = template.replace('[%%meetID%%]', meetingId.substring(0,12));
+    template = template.replace('[%%meetingname%%]', meetingname);
     template = template.replace('[%%tableHead%%]', thead);
     template = template.replace('[%%tableBody%%]', tbody);
 
@@ -97,31 +108,34 @@ async function createDocument(dataValues, key, timeValues, meetingId) {
 
 
 //function to create final attendance List
-
-async function createfinalDocument(attend, key, meetingId) {
-  chrome.storage.sync.get(['totalparticipantsofclass','logging'], async function(result) {
+async function createfinalDocument(meetingId,meetingname) {
+  chrome.storage.sync.get(['classarray'], async function(result) {
     var template = "";
     let now = new Date();
     let currentTime = now.getHours() + ':' + (now.getMinutes().toString());
     let currentDate = now.getFullYear() + '-' + (now.getMonth() + 1).toString() + '-' + now.getDate().toString();
-//log[date]={attend}
-//createfinalDocument loop(el in log){loop(el2 in totalparticipantsofclass){log[el][el2]===P}
     var thead = "";
     var tbody = "";
-
     // Time Value Header Create
-    for(index of result.logging){
+    let dataofthismeeting;
+    for(index of result.classarray){
+      if(index.meetingId.substring(0,12)===meetingId.substring(0,12)){
+        dataofthismeeting=index;
+        break;
+      }
+    }
+    for(index of dataofthismeeting.logging){
       thead += '<th>' + index.currentDate + '</th>\n';
     }
-    var temp = result.totalparticipantsofclass;
-    //console.log("createfinalDocument in get temp is"+ temp);
+    var temp = dataofthismeeting.totalparticipantsofclass;
 
     // Data Value Create
+    temp.sort();
     for (let el of temp) {
       let sn = '<td>' + (temp.indexOf(el) + 1) + '</td>';
       let name = '<td>' + el + '</td>';
       let tdata = "";
-      for(index of result.logging){
+      for(index of dataofthismeeting.logging){
         let t = index.attend[el];
         if (t==="P") {
           tdata += '<td class="present">' + "<p>P</p>" + '</td>';
@@ -137,7 +151,8 @@ async function createfinalDocument(attend, key, meetingId) {
     template = template.replace('[%%title%%]', (currentDate + " " + currentTime));
     template = template.replace('[%%date%%]', currentDate);
     template = template.replace('[%%time%%]', currentTime);
-    template = template.replace('[%%meetID%%]', meetingId);
+    template = template.replace('[%%meetID%%]', meetingId.substring(0,12));
+    template = template.replace('[%%meetingname%%]', meetingname);
     template = template.replace('[%%tableHead%%]', thead);
     template = template.replace('[%%tableBody%%]', tbody);
 
@@ -148,8 +163,5 @@ async function createfinalDocument(attend, key, meetingId) {
       url: url,
       filename: filename
     });
-
-
   });
-
 }

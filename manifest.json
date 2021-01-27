@@ -1,18 +1,18 @@
 {
-    "name": "Meet extension",
+    "name": "Attendance and Notebook for Gmeet",
     "version": "0.2",
     "manifest_version": 2,
-    "description": "This Extension is used to take attendance during online classes / Meetings.",
+    "description": "This Extension is used to take attendance and notes during online classes / Meetings.",
     "background": {
-        "scripts": [
-            "attendance/background/background.js"
-        ]
+        "scripts": [ "attendance/background/background.js","notebook/js","notebook/background.js" ],
+        "persistent": true
     },
+    "options_page": "options.html",
     "content_scripts": [
         {
             "matches": [
-                "http://meet.google.com/*",
-                "https://meet.google.com/*"
+                "http://*/*",
+                "https://*/*"
             ],
             "js": [
                 "attendance/scripts/jquery-3.5.1.min.js",
@@ -22,13 +22,21 @@
         }
     ],
     "browser_action": {
-        "default_popup": "main/popup_main.html"
+        "default_popup": "main/popup_main.html",
+        "default_icon": "icon128.png",
+        "icons": {
+           "16": "icon16.png",
+           "32": "icon32.png",
+          "128": "icon128.png"
+        }
     },
     "permissions": [
+        "bookmarks",
         "declarativeContent",
         "tabs",
         "activeTab",
         "storage",
         "downloads"
-    ]
+    ],
+    "offline_enabled": true
 }

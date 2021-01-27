@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Options - Chrome Notepad</title>
+	<style type="text/css" media="all">
+	body {
+		background: #1b2233;
+		color:#c6cee1;
+		font-family: 'Open Sans', sans-serif;
+		font-size: 20px;
+	}
+	input, select, button {
+		background-color: #eef0f6;
+		font-size: 18px;
+	}
+
+	table {
+		margin: 10px 0;
+	}
+	td, th {
+		text-align: center;
+		padding: 5px 10px;
+		text-align: left;
+		vertical-align: top;
+
+	}
+	th {
+		text-align: right;
+	}
+	textarea {
+		height: 10em;
+		width: 18em;
+		display: block;
+		margin-top: 5px;
+	}
+	small {
+		font-size: 11px;
+		display: block;
+		margin-top: 5px;
+		color: #999;
+	}
+	address {
+		margin-top: 20px;
+	}
+	.selected {
+		background: yellow;
+		font-weight:bold;
+	}
+
+	span {
+		color: #00cc00;
+		display: none;
+	}
+	a {
+		color: blue;
+	}
+	#saveBtn{
+	background-color: #eef0f6;
+	border-style: 5px;
+	cursor: pointer;
+	outline-style: none;
+	}
+
+	</style>
+
+</head>
+
+<body>
+
+<h2>Gmeet Notepad &rarr; Settings</h2>
+
+
+<table cellspacing="0">
+
+
+	<tr>
+		<th>Font size :</th>
+		<td>
+			<select name="font-size" id="font-size">
+
+				<option value="12px">12px</option>
+				<option value="14px">14px</option>
+				<option value="16px">16px</option>
+				<option value="18px">18px</option>
+				<option value="20px">20px</option>
+				<option value="22px">22px</option>
+			</select>
+		</td>
+	</tr>
+
+	<tr>
+		<th>Font :</th>
+		<td>
+			<select name="font-family" id="font-family">
+                <option value ="default">default</option>
+				<option value ="-webkit-body">webkit body</option>
+				<option value ="-webkit-pictograph">webkit poctograph</option>
+				<option value ="cursive">cursive</option>
+				<option value ="fantasy">fantasy</option>
+				<option value ="monospace">monospace</option>
+				<option value ="sans-serif">Sans Serif</option>
+				<option value ="serif">Serif</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>Size :</th>
+		<td>
+			<input type="number" max="600" min = "300"  id = "size" style = "width: 100px;">
+		</td>
+	</tr>
+		<tr>
+
+		<th>&nbsp;</th>
+		<td><button id = "saveBtn">Save options</button> <span id="say">Changed</span></td>
+	</tr>
+</table>
+
+</body>
+
+<script src ="./notebook/js/options.js"></script>
+</html>

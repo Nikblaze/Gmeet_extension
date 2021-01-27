@@ -6,7 +6,12 @@
     <title>[%%title%%]</title>
     <style>
         body {
-            background-color: #fff;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 300;
+            line-height: 1.42em;
+
+            color:#A7A1AE;
+             background-color: #1b2233;
         }
 
         /* Header Styles */
@@ -14,75 +19,122 @@
         header {
             text-align: center;
             width: 100%;
-        }
+            color: #FB667A;        }
 
         header h2 {
             font-size: 3rem;
-            color: blue;
+            color: #EDF5E1;
         }
 
         header h3 {
             font-size: 1.5rem;
             font-weight: 700;
-            display: inline-block;
+
             width: 45%;
             margin: 0px;
+            display: inline-block;
+
+
+            line-height:1em;
+            padding-bottom: 1.3rem;
+
+
         }
 
         #date {
             text-align: left;
+            color: #82b74b;
+
         }
 
         #time {
             text-align: right;
+            color: #82b74b;
+
+
         }
 
-        #meetingId h3 {
+        #classlist h3 {
             text-align: center;
             width: max-content;
-            color: deepskyblue;
+            color: #c6cee1;
+
+        }
+        #meetingname{
+            color: #d05271;
+            text-align: center;
+
+        }
+        #meetingId h3 {
+
+
+
+
+            color: #d05271;
         }
 
         /* Table Styles */
 
         .container {
-            margin: auto;
-            margin-top: 2rem;
+
             width: max-content;
-            box-shadow: 0px 0px 10px -3px rgba(0, 0, 0, 0.75);
+            box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+             max-width: 1000px;
+            margin-left: auto;
+              margin-right: auto;
+            padding-left: 10px;
+             padding-right: 10px;
         }
 
         table {
-            font-family: arial, sans-serif;
-            border-collapse: separate;
+            font-family: 'Open Sans', sans-serif;
+            border: 1px solid black;
             width: 100%;
-            background: #000;
+            background-color: #c6cee1;
             /* Align table to center */
             margin-left: auto;
             margin-right: auto;
             text-align: center;
+
         }
 
-        th,
-        td {
+        td{
+
             min-width: 3rem;
             min-height: 3rem;
             white-space: nowrap;
             padding: 0.65rem;
-            background-color: #81D4FA;
+            color: #151a28;
+
             font-weight: bold;
+        }
+        th{
+
+            font-weight: bold;
+            font-size: 1em;
+            text-align: center;
+            color: #ff7b25;
+            width: max-content;
+            padding-top: 0.7rem;
+            padding-bottom: 0.7rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            background-color: #0E1119;
         }
 
         /* For Present and Absent */
 
         .present {
-            color: #00E676;
-            background-color: rgb(251, 251, 255);
+            color: #265728;
+            background-color: #cae8cb;
+
+
         }
 
         .absent {
-            color: #ff1744;
-            background-color: rgb(255, 241, 241);
+            color: red;
+            background-color: #fff0f0;
+
         }
 
         .thead :nth-child(2) {
@@ -94,7 +146,7 @@
 <body>
 
     <header>
-        <h2>Google Meet Attendance</h2>
+        <h2>Attendance Sheet</h2>
         <div>
             <span id="date">
                 <h3>Date:[%%date%%]</h3>
@@ -102,6 +154,9 @@
             <span id="time">
                 <h3>Time:[%%time%%]</h3>
             </span>
+            <div id="meetingname">
+                <h3>Meeting Details: [%%meetingname%%]</h3>
+            </div>
             <div id="meetingId">
                 <h3>Meeting ID: [%%meetID%%]</h3>
             </div>

@@ -2,34 +2,76 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    font-family: sans-serif;
     align-items: center;
     width: max-content;
     height: max-content;
-    padding: 1rem;
+    padding: 0.5rem;
     margin: 0px;
-    color: #69779b;
-    background-color: #acdbdf;
+
+    background-color: #29303b;
     font-size: 1rem;
     font-weight: 500;
+    color: #CCCCCC;
 }
 
 button {
-    padding: 0.5rem;
-    width: 12rem;
-    margin: 0.5rem;
+    justify-content: center;
+    
+    align-items: center;
+    padding: 0.2rem;
+    width: 7rem;
+    height: 3rem;
+     margin-top: 0.5rem;
+     margin-bottom: 0.5rem;
+     margin-right: 0.3rem;
+     margin-left: 0.3rem;
+    font-family: sans-serif;
+    font-size: 1rem;
     border: none;
-    color: cornsilk;
-    background-color: #69779b;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    outline-style: none;
+
+
+
+    background-color: #ff9307;
+}
+button:active {
+  background-color: ##b30086;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+  border: none;
+   outline-style:none;
+
 }
 
-button:focus {
-    outline: none;
-    background-color: #4d4dff;
+
+
+button:hover {
+    border: none;
+    outline-style: : none;
+    background-color: #EA5455;
+
 }
 
 .status-wrapper {
     margin: 0.5rem;
     overflow-wrap: break-word;
+    font-size: 1.5rem;
+}
+.start{ background-color: #1f7a1f;
+
+}
+.stop{ background-color: #b30000;
+
+}
+
+
+#clear{
+	background-color: #96897f;
+
 }
 
 input[type="range"] {
@@ -50,18 +92,18 @@ input[type="range"]::-webkit-slider-runnable-track {
     cursor: pointer;
     animate: 0.2s;
     box-shadow: 0px 0px 0px #000000;
-    background: #0d0dda;
+    background: #FF6600;
     border-radius: 3px;
     border: 0px solid #000000;
 }
 
 input[type="range"]::-webkit-slider-thumb {
     box-shadow: 0px 0px 0px #000000;
-    border: 1px solid #0d0dda;
+    border: 1px solid #000000;
     height: 18px;
     width: 18px;
     border-radius: 25px;
-    background: #5cacfc;
+    background: #CCCCCC;
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -7px;

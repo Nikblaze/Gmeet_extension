@@ -1,0 +1,114 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Class list</title>
+	<style type="text/css" media="all">
+	body {
+
+
+		background-color: #1b2233;
+		font-family: 'Open Sans', sans-serif;
+		color:#c6cee1;
+
+
+		font-size: 20px;
+	}
+ h2{
+ 	    font-size: 30px;
+		margin-left: 50px;
+		 display: inline-flex;
+
+		     text-align:center;
+
+
+	}
+ button {
+		font-size: 20px;
+		font-family: 'Open Sans', sans-serif;
+		font-weight: bold;
+		 padding: 0.2rem;
+		 border-radius: 5px;
+		 width: 12rem;
+		height: 2rem;
+		text-align: center;
+		 background-color: #d1d6e7 ;
+		 outline-style: none;
+		 color:#1a1b32;
+		 cursor: pointer;
+	}
+	button:active {
+  background-color: #5558a5;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+  border: none;
+   outline-style:none;
+
+}
+
+	table {
+		margin: 14px ;
+	}
+	td{
+		justify-content: left;
+		padding: 5px 10px;
+		text-align: left;
+		vertical-align: top;
+
+
+	}
+	#download{
+		margin-top: 25px;
+		margin-bottom: 10px;
+	}
+	th {
+		padding-left : 90px;
+
+		font-size: 20px;
+		margin-left: 10px;
+		text-align: left;
+	}
+	#classlist{
+
+		text-align: center;
+
+		font-variant-position: center;
+		background-color: #d1d6e7 ;
+		outline-style:none;
+		padding: 0rem;
+		width: max-content;
+		height: 1.5rem;
+
+
+	}
+
+	</style>
+
+</head>
+
+<body>
+<h2>Attendance Details</h2>
+
+<table cellspacing="0">
+
+		<th>Select Meeting / Class:</th>
+		<td>
+			<select id="classlist">
+        <option value ="select_class">Select Meeting/Class</option>
+			</select>
+		</td>
+	</tr>
+
+		<tr>
+		<th></th>
+		<td><button id = "download">Download</button>
+	</tr>
+	<tr>
+	<th></th>
+	<td><button id = "deleteclass">Delete</button>
+</tr>
+</table>
+</body>
+
+<script src ="classlist.js"></script>
+</html>

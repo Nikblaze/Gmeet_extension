@@ -5,10 +5,11 @@ body {
     align-items: center;
     width: max-content;
     height: max-content;
-    padding: 1rem;
+
     margin: 0px;
-    color: #0d0dda;
-    background-color: #81d4fa;
+
+    background-color: #29303b;
+    font-family: "Droid Sans Mono Slashed", "Consolas", "Monaco", "Courier New", serif;
     font-size: 1rem;
     font-weight: 500;
 }
@@ -16,12 +17,37 @@ a.button {
     -webkit-appearance: button;
     -moz-appearance: button;
     appearance: button;
+    text-align: center;
+   text-decoration: none;
 
-    text-decoration: none;
+  display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  width: 50px;
+  height: 50px;
+  font-size: 16px;
+    border: 2px solid #000000;
+
+     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
+    font
     padding: 0.5rem;
     width: 12rem;
     margin: 0.5rem;
-    border: none;
-    color: cornsilk;
-    background-color: #0d0dda;
+    border-radius: 10px;
+
+    color: white;
+    background-color: #e22b30;
+}
+a.button:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+.icon {
+    background: url('icon32.png');
+    height: 20px;
+    width: 20px;
+    display: inline;
+
 }

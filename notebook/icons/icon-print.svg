@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 26.797 24.361" xmlns="http://www.w3.org/2000/svg">
+  <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="matrix(1, 0, 0, 1, 0.380583, 2.993902)">
+    <g id="Artboard-2" transform="translate(-548.000000, -112.000000)" stroke="#36434D">
+      <g id="Group-8" transform="translate(549.000000, 111.000000)">
+        <g id="ic_local_printshop" transform="translate(0.000000, 2.000000)">
+          <g id="Icon-24px">
+            <path d="M 2.333 1.889 C 1.042 1.889 0 2.931 0 4.222 L 0 8.889 L 3.111 8.889 L 3.111 12 L 12.444 12 L 12.444 8.889 L 15.556 8.889 L 15.556 4.222 C 15.556 2.931 14.513 1.889 13.222 1.889 L 2.333 1.889 Z M 10.889 10.444 L 4.667 10.444 L 4.667 6.556 L 10.889 6.556 L 10.889 10.444 L 10.889 10.444 Z M 13.222 5 C 12.794 5 12.444 4.65 12.444 4.222 C 12.444 3.794 12.794 3.444 13.222 3.444 C 13.65 3.444 14 3.794 14 4.222 C 14 4.65 13.65 5 13.222 5 L 13.222 5 Z M 12.444 -2 L 3.111 -2 L 3.111 1.889 L 12.444 1.889 L 12.444 -2 L 12.444 -2 Z" id="Shape" style="fill: rgb(255, 102, 0);"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
