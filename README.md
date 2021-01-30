@@ -6,8 +6,7 @@ This Google meet extension will simplify the attendance and note taking process 
 
 ### Features
 
-- 	The attendance system takes attendance multiple time at a contant interval of time which is selected by the user. And it allows to set the criteria in percentage
-	about how much time a participant has to be present during whole meeting to be marked as present.
+- 	The attendance system takes attendance multiple time at a contant interval of time which is selected by the user. And it allows to set the criteria in 		percentage about how much time a participant has to be present during whole meeting to be marked as present.
 -       It saves the Attendance log as a HTML file.
 -	It allows to take and save notes during the class which can be later downloaded or printed by the user as they wish.
 ### Functionality
